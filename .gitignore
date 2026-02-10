@@ -1,0 +1,15 @@
+build/
+dist/
+installer_output/
+
+core/events-copy.py
+core/events.py.back
+ui/overlay.py.back
+
+build_windows_back.py
+calendar.json
+manager.txt
+zencal.log
+ZenCal.spec
+
+zencal.py.back

@@ -14,9 +14,33 @@ class EventManagerApp:
 
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("ZenCal Manager • ORION-OS")
+        self.root.title("ZenCal Manager")
         self.root.geometry("1200x750")
         self.root.configure(bg=THEME["bg_dark"])
+
+        # ADD THIS SECTION:
+        # Set window icon
+        from pathlib import Path
+
+        ico_path = Path(__file__).parent.parent / "zencal.ico"
+        png_path = Path(__file__).parent.parent / "zencal.png"
+
+        if ico_path.exists():
+            try:
+                self.root.iconbitmap(str(ico_path))
+            except Exception as e:
+                print(f"Could not load .ico: {e}")
+                if png_path.exists():
+                    try:
+                        self.root.iconphoto(True, tk.PhotoImage(file=str(png_path)))
+                    except:
+                        pass
+        elif png_path.exists():
+            try:
+                self.root.iconphoto(True, tk.PhotoImage(file=str(png_path)))
+            except:
+                pass
+        # END OF NEW SECTION
 
         self.config = load_config()
         self.selected_index = None

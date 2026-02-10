@@ -35,10 +35,22 @@ class ZenCalOverlay:
         self.root.geometry("700x180+100+100")
 
         # Set icon if available
-        icon_path = Path(__file__).parent.parent / "zencal.png"
-        if icon_path.exists():
+        ico_path = Path(__file__).parent.parent / "zencal.ico"
+        png_path = Path(__file__).parent.parent / "zencal.png"
+
+        if ico_path.exists():
             try:
-                self.root.iconphoto(True, tk.PhotoImage(file=str(icon_path)))
+                self.root.iconbitmap(str(ico_path))
+            except Exception as e:
+                print(f"Could not load .ico: {e}")
+                if png_path.exists():
+                    try:
+                        self.root.iconphoto(True, tk.PhotoImage(file=str(png_path)))
+                    except:
+                        pass
+        elif png_path.exists():
+            try:
+                self.root.iconphoto(True, tk.PhotoImage(file=str(png_path)))
             except:
                 pass
 
@@ -65,17 +77,31 @@ class ZenCalOverlay:
         """Setup system tray icon."""
         try:
             import pystray
-            from PIL import Image, ImageDraw
+            from PIL import Image
 
-            # Try to load custom icon
-            icon_path = Path(__file__).parent.parent / "zencal.png"
-            if icon_path.exists():
+            # Try to load .ico first, then .png, then create default
+            ico_path = Path(__file__).parent.parent / "zencal.ico"
+            png_path = Path(__file__).parent.parent / "zencal.png"
+
+            if ico_path.exists():
                 try:
-                    icon_image = Image.open(icon_path)
+                    icon_image = Image.open(ico_path)
+                    self.log(f"✓ Loaded tray icon: {ico_path.name}")
+                except Exception as e:
+                    self.log(f"⚠️  Could not load .ico: {e}, trying .png")
+                    if png_path.exists():
+                        icon_image = Image.open(png_path)
+                    else:
+                        icon_image = self.create_default_icon()
+            elif png_path.exists():
+                try:
+                    icon_image = Image.open(png_path)
+                    self.log(f"✓ Loaded tray icon: {png_path.name}")
                 except:
                     icon_image = self.create_default_icon()
             else:
                 icon_image = self.create_default_icon()
+                self.log("⚠️  No icon file found, using default")
 
             def on_show(icon, item):
                 self.root.deiconify()

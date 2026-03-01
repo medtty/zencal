@@ -53,7 +53,7 @@ ZenCal **takes over your entire screen** with large, impossible-to-ignore text w
 ### Windows
 
 **Installer (Recommended)**
-1. Download `ZenCal-Setup-1.0.0.exe` from [Releases](https://github.com/medtty/zencal/releases/latest)
+1. Download `ZenCal-Setup-1.0.3.exe` from [Releases](https://github.com/medtty/zencal/releases/latest)
 2. Run the installer
 3. Find **ZenCal** and **ZenCal Manager** in Start Menu
 4. Done! ✨
